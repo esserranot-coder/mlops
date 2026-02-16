@@ -6,7 +6,12 @@ import numpy as np
 app = FastAPI()
 modelo = joblib.load("modelo.pkl")
 
-# Definiendo un modelo de datos
+"""
+    Se define el modelo de datos con  base 
+    a las columnas usadas de la base de datos de 
+    pinguinos excluyendo las columnas que no se van 
+    a tener en cuenta
+"""
 class Item(BaseModel):
     island:int
     bill_length_mm:float
@@ -15,6 +20,11 @@ class Item(BaseModel):
     body_mass_g:int
     sex:int
 
+"""
+    Se define una petición tipo post para recibir los 
+    parametros de entrada para que el modelo previamente
+    entrenado pueda predecir el resultado
+"""
 @app.post("/items/")
 def create_item(item: Item):
     X = np.array([[
@@ -26,4 +36,4 @@ def create_item(item: Item):
         item.sex
     ]])
     pred = modelo.predict(X)
-    return {"prediction": pred.tolist()}
+    return {"prediction": pred.tolist()} # Se retorna el resultado
