@@ -24,6 +24,6 @@ def create_item(item: Item):
         item.flipper_length_mm,
         item.body_mass_g,
         item.sex
-    ]]).reshape(-1, 1)
+    ]])
     pred = modelo.predict(X)
     return {"prediction": pred.tolist()}
